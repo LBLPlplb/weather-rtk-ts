@@ -8,6 +8,7 @@ export const weatherApi = createApi({
     endpoints: builder => ({
         getWeatherByCity: builder.query<WeatherInfo,string>({
             query: (city: string) => `?q=${city}&appid=${api_key}&units=metric`,
+            keepUnusedDataFor: 10,
             transformResponse: (data: WeatherInfoResponse) => ({
                 city: data.name,
                 country: data.sys.country,
@@ -20,21 +21,3 @@ export const weatherApi = createApi({
 })
 
 export const {useGetWeatherByCityQuery} = weatherApi;
-
-// export const fetchWeather = createAsyncThunk(
-//     'fetch/weather',
-//     async (city: string) => {
-//         const response = await fetch(`${base_url}?q=${city}&appid=${api_key}&units=metric`)
-//         if (!response.ok) {
-//             throw new Error('Enter correct city name');
-//         }
-//         const data = await response.json();
-//         return {
-//             city: data.name,
-//             country: data.sys.country,
-//             temp: data.main.temp,
-//             pressure: data.main.pressure,
-//             sunset: data.sys.sunset * 1000
-//         }
-//     }
-// )
